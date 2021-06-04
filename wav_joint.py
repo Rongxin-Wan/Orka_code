@@ -25,11 +25,24 @@ def wav_joint_infile(FILE_PATH, ifshuffle=False):
   files = os.listdir(FILE_PATH)
   if (ifshuffle):
     random.shuffle(files)
-  os.system("cp "+FILE_PATH+"/"+files[0]+" "+FILE_PATH+"/output.wav")
-  files.pop(0)
+  os.system("cp "+FILE_PATH+"/"+files.pop(0)+" "+FILE_PATH+"/output.wav")
+  data = []
+  f1 = wave.open(FILE_PATH+"/output.wav", 'rb')
+  data.append( [f1.getparams(), f1.readframes(f1.getnframes())] )
+  count = 0
+  f1.close()
+  print("Reading start")
   for file in files:
-    wav_joint(FILE_PATH+"/output.wav", FILE_PATH+"/"+files[0])
-
+    w = wave.open(FILE_PATH+"/"+file, 'rb')
+    data.append( [w.getparams(), w.readframes(w.getnframes())] )
+    w.close()
+    count += 1
+  print("Synthesis start")
+  out = wave.open(FILE_PATH+"/output.wav", 'wb')
+  out.setparams(data[0][0])
+  for i in range(count):
+    out.writeframes(data[i][1])
+  out.close()
 
 # wav_joint testing
 # file1 = "/mnt/d/Code_review/Orka_code/wav1.wav"
@@ -37,5 +50,5 @@ def wav_joint_infile(FILE_PATH, ifshuffle=False):
 # wav_joint(file1, file2)
 
 # wav_joint_infile testing
-# FILE_PATH = "/mnt/d/Code_review/Orka_code/test"
-# wav_joint_infile(FILE_PATH)
+FILE_PATH = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/generated_clean_32k"
+wav_joint_infile(FILE_PATH)
