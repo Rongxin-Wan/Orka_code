@@ -9,7 +9,7 @@ def wav2pcm(wavfile, pcmfile, data_type=np.int16):
     data = np.fromfile(f, dtype= data_type)
     data.tofile(pcmfile)
 
-def pcm2wav(pcm_file, wav_file, channels=1, bits=16, sample_rate=32000):
+def pcm2wav(pcm_file, wav_file, channels=1, bits=16, sample_rate=16000):
     pcmf = open(pcm_file, 'rb')
     pcmdata = pcmf.read()
     pcmf.close()
@@ -26,4 +26,7 @@ def wav2pcm_infile(FILE_PATH_WAV, FILE_PATH_PCM, data_type=np.int16):
     files = os.listdir(FILE_PATH_WAV)
     for file in files:
         wav2pcm(FILE_PATH_WAV+"/"+file, FILE_PATH_PCM+"/"+file, data_type)
-    
+
+pcm_file = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/clean_3h2_300mVpeak.pcm"
+wav_file = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/clean_10h2_300mVpeak.wav"
+pcm2wav(pcm_file, wav_file)

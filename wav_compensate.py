@@ -1,16 +1,29 @@
+# wav_compensate: mutiple a Gain to .wav file and rewrite original file
+# wav_compensate_infile: mutiple a Gain to .wav file in a directory and rewrite
+
 import numpy as np
-from scipy.fftpack import fft
-import matplotlib.pyplot as plt
+from scipy.io import wavfile
+import os
 
-Fs = 32000
-f = open("./female.wav", "rb")
-f.seek(0)
-f.read(44)
-x = np.fromfile(f, dtype = np.int16)
-N = len(x)
-freq = np.linspace(0,Fs,N+1)
-df = freq[1]
-y = fft(x,N)
+def wav_compensate(file, gain):
+  sample_rate, data = wavfile.read(file)
+  # print(data[0])
+  # print(type(data[0]))
+  data = data * gain
+  data = np.array(data, dtype=np.int16)
+  # print(data[0])
+  # print(type(data[0]))
+  wavfile.write(file, sample_rate, data)
 
-data = np.loadtxt("coeff.txt")   #将文件中数据加载到data数组里
-print(data.shape)
+def wav_compensate_infile(FILE_PATH, gain):
+  files = os.listdir(FILE_PATH)
+  count = 0
+  for file in files:
+    wav_compensate(FILE_PATH+"/"+file, gain)
+    count += 1
+    print(count)
+
+path = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/generated_noise_32k_new"
+wav_compensate_infile(path,0.5)
+# file = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/generated_noise_32k/aaa.wav"
+# wav_compensate(file, 0.5)

@@ -45,10 +45,10 @@ def wav_joint_infile(FILE_PATH, ifshuffle=False):
   out.close()
 
 # wav_joint testing
-# file1 = "/mnt/d/Code_review/Orka_code/wav1.wav"
-# file2 = "/mnt/d/Code_review/Orka_code/wav2.wav"
+# file1 = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/clean_10h1_300mVpeak.wav"
+# file2 = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/clean_10h2_300mVpeak.wav"
 # wav_joint(file1, file2)
 
 # wav_joint_infile testing
-FILE_PATH = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/generated_clean_32k"
+FILE_PATH = "/mnt/d/Code_review/Voice_data/DNS_noisy_gener/generated_noise_32k_new"
 wav_joint_infile(FILE_PATH)
